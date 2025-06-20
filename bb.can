@@ -17,7 +17,7 @@ variables
 }
 on timer tRunningTime
 {
-  setTimer(tRunningTime,100);
+  setTimer(tRunningTime,1000);
   time++;
   //write("timer : %d",time);
   $RunningTime = time;
@@ -115,4 +115,12 @@ void sendaCanMsg()
   MakeaCanMsg();
   //output(canMsg);
   //output(msgEngineState);
+}
+on message Boong_DiagRequest
+{
+  
+  msgBBDiag.SID = this.id_6 + 0x40;
+  msgBBDiag.DTC1 = 0;
+  msgBBDiag.DTC2 = 0;
+  output(msgBBDiag);
 }

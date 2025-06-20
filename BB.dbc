@@ -1,0 +1,139 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: BoongBoong
+
+
+BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
+ SG_ data : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ option : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ id : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ AW_Rsignal : 0|2@1+ (1,0) [0|1] "state" Vector__XXX
+ SG_ AW_Lsignal : 0|2@1+ (1,0) [0|1] "state" Vector__XXX
+ SG_ AW_DontChange : 0|2@1+ (1,0) [0|2] "state" Vector__XXX
+ SG_ AW_LaneChange : 0|2@1+ (1,0) [0|2] "state" Vector__XXX
+ SG_ AW_RearAssist : 0|4@1+ (1,0) [0|2] "state" Vector__XXX
+ SG_ AW_RWaring : 0|4@1+ (1,0) [0|1] "state" Vector__XXX
+ SG_ AW_DASH : 0|2@1+ (1,0) [0|2] "state" Vector__XXX
+ SG_ AW_SOLID : 0|2@1+ (1,0) [0|1] "state" Vector__XXX
+ SG_ AW_REACCEL : 0|2@1+ (1,0) [0|2] "state" Vector__XXX
+ SG_ AW_STANBY : 0|2@1+ (1,0) [0|2] "state" Vector__XXX
+ SG_ AW_STAY : 0|8@1+ (1,26) [26|53] "m" Vector__XXX
+ SG_ AW_AWAY : 0|8@1+ (1,53) [53|65] "m" Vector__XXX
+ SG_ AW_CLOSE : 0|8@1+ (1,0) [0|26] "m" Vector__XXX
+ SG_ AW_Center : 0|8@1- (1,-2) [-2|2] "m" Vector__XXX
+ SG_ AW_Lside : 0|8@1- (1,-6) [-6|-3] "m" Vector__XXX
+ SG_ AW_Rside : 0|8@1+ (1,3) [3|6] "m" Vector__XXX
+ SG_ release_Brake : 0|1@1+ (1,0) [0|1] "bit" Vector__XXX
+ SG_ adas_state : 0|1@1+ (1,0) [0|1] "bit" Vector__XXX
+ SG_ Boong_braking_info : 0|8@1+ (1,0) [0|255] "bit" Vector__XXX
+ SG_ SSC_seat_belt_speed_restriction : 0|1@1+ (1,0) [0|1] "bit" Vector__XXX
+ SG_ SSC_front_seat_check_passenger : 0|1@1+ (1,0) [0|1] "bit" Vector__XXX
+ SG_ SSC_front_seat_check_driver : 0|1@1+ (1,0) [0|1] "bit" Vector__XXX
+
+BO_ 526 BB_DiagResponse: 8 BoongBoong
+ SG_ DTC2 : 32|24@1+ (1,0) [0|16000000] "int" Vector__XXX
+ SG_ DTC1 : 8|24@1+ (1,0) [0|16777215] "int" Vector__XXX
+ SG_ SID : 0|8@1+ (1,0) [0|255] "int" Vector__XXX
+
+BO_ 1028 BrakeState: 2 BoongBoong
+ SG_ BrakeSensorData : 0|16@1+ (1,0) [0|3300] "mV" Vector__XXX
+
+BO_ 1026 RunningTime: 2 BoongBoong
+ SG_ RunningTime : 0|16@1+ (1,0) [0|1500] "min" Vector__XXX
+
+BO_ 1025 ButtonState: 1 BoongBoong
+ SG_ AutoWay : 1|1@1+ (1,0) [0|1] "digit" Vector__XXX
+ SG_ StartOnOff : 0|1@1+ (1,0) [0|1] "digit" Vector__XXX
+
+BO_ 1027 EngineSteeringState: 5 BoongBoong
+ SG_ SteeringAngle : 24|16@1- (1,0) [-180|180] "degree" Vector__XXX
+ SG_ CarSpeed : 16|8@1+ (1,0) [0|240] "km/h" Vector__XXX
+ SG_ RPM : 0|16@1+ (1,0) [0|5000] "RPM" Vector__XXX
+
+
+
+CM_ BO_ 3221225472 "This is a message for not used signals, created by Vector CANdb++ DBC OLE DB Provider.";
+BA_DEF_ SG_  "GenSigSendType" ENUM  "Cyclic","OnWrite","OnWriteWithRepetition","OnChange","OnChangeWithRepetition","IfActive","IfActiveWithRepetition";
+BA_DEF_ SG_  "GenSigStartValue" FLOAT 0 100000000000;
+BA_DEF_ SG_  "GenSigInactiveValue" INT 0 0;
+BA_DEF_ BO_  "GenMsgStartDelayTime" INT 0 100000;
+BA_DEF_ BO_  "GenMsgILSupport" ENUM  "No","Yes";
+BA_DEF_ BO_  "GenMsgCycleTimeFast" INT 2 100000;
+BA_DEF_ BO_  "GenMsgSendType" ENUM  "Cyclic","not_used","not_used","not_used","not_used","Cyclic","not_used","IfActive";
+BA_DEF_ BO_  "GenMsgCycleTime" INT 2 50000;
+BA_DEF_ BO_  "GenMsgDelayTime" INT 1 1000;
+BA_DEF_ BO_  "GenMsgNrOfRepetition" INT 0 999999;
+BA_DEF_ BO_  "GenMsgFastOnStart" INT 0 0;
+BA_DEF_ BU_  "ILUsed" ENUM  "Yes","No";
+BA_DEF_  "BusType" STRING ;
+BA_DEF_ BU_  "NodeLayerModules" STRING ;
+BA_DEF_ BU_  "ECU" STRING ;
+BA_DEF_ BU_  "CANoeJitterMax" INT 0 0;
+BA_DEF_ BU_  "CANoeJitterMin" INT 0 0;
+BA_DEF_ BU_  "CANoeDrift" INT 0 0;
+BA_DEF_ BU_  "CANoeStartDelay" INT 0 0;
+BA_DEF_DEF_  "GenSigSendType" "Cyclic";
+BA_DEF_DEF_  "GenSigStartValue" 0;
+BA_DEF_DEF_  "GenSigInactiveValue" 0;
+BA_DEF_DEF_  "GenMsgStartDelayTime" 0;
+BA_DEF_DEF_  "GenMsgILSupport" "Yes";
+BA_DEF_DEF_  "GenMsgCycleTimeFast" 100;
+BA_DEF_DEF_  "GenMsgSendType" "not_used";
+BA_DEF_DEF_  "GenMsgCycleTime" 2;
+BA_DEF_DEF_  "GenMsgDelayTime" 1;
+BA_DEF_DEF_  "GenMsgNrOfRepetition" 0;
+BA_DEF_DEF_  "GenMsgFastOnStart" 0;
+BA_DEF_DEF_  "ILUsed" "Yes";
+BA_DEF_DEF_  "BusType" "";
+BA_DEF_DEF_  "NodeLayerModules" "";
+BA_DEF_DEF_  "ECU" "";
+BA_DEF_DEF_  "CANoeJitterMax" 0;
+BA_DEF_DEF_  "CANoeJitterMin" 0;
+BA_DEF_DEF_  "CANoeDrift" 0;
+BA_DEF_DEF_  "CANoeStartDelay" 0;
+BA_ "BusType" "CAN";
+BA_ "GenMsgCycleTime" BO_ 1028 10;
+BA_ "GenMsgSendType" BO_ 1028 0;
+BA_ "GenMsgCycleTime" BO_ 1026 10;
+BA_ "GenMsgSendType" BO_ 1026 0;
+BA_ "GenMsgCycleTime" BO_ 1027 10;
+BA_ "GenMsgSendType" BO_ 1027 0;
+BA_ "GenSigSendType" SG_ 526 DTC2 1;
+BA_ "GenSigSendType" SG_ 526 DTC1 1;
+BA_ "GenSigSendType" SG_ 526 SID 1;
+BA_ "GenSigSendType" SG_ 1025 AutoWay 1;
+BA_ "GenSigSendType" SG_ 1025 StartOnOff 1;
+

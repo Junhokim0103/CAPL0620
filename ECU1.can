@@ -1,0 +1,222 @@
+﻿/*@!Encoding:65001*/
+includes
+{
+  
+}
+
+variables
+{
+  // define a can message
+  message 0x106 canMsg;
+  message 0x501 canMsg2;
+  message 0x500 canMsg3;
+  message 0x321 rbc_braking_info;
+  //message EngineState msgEngineState;
+  
+  // define a timer
+  msTimer tCanMsg;
+  word time = 0;
+}
+
+on timer tCanMsg
+{
+  //set a timer time
+  setTimer(tCanMsg,100);
+  //send a Can message
+  sendaCanMsg2();
+  time++;
+  write("time : %d",time);
+  
+}
+
+//application layer
+on key 't'
+{
+  setTimer(tCanMsg,100);
+}
+
+
+on start
+{
+  write("start");
+}
+
+on key 'a'
+{
+  //send a can message
+  //MakeaCanMsg();
+  sendaCanMsg();
+  
+}
+on key 'b'
+{
+  //make message
+  rbc_braking_info.dlc = 2;
+  rbc_braking_info.word(0) = 2;
+  
+  //send message
+  output(rbc_braking_info);
+  
+  
+  
+}
+ On message 0x116
+{
+    if(this.byte(0)== 0x11)
+    {
+       @sysvar::test::display1 = 1;
+    }
+  
+}
+
+On message 0x106
+{
+    if(this.byte(0)== 0x11)
+    {
+       @sysvar::test::display1 = 0;
+    }
+    @sysvar::test::meter = this.byte(1);
+  
+}
+On message 0x500
+{
+
+  @sysvar::test::displayvalue = this.byte(2);
+  @sysvar::test::meter = this.byte(2);
+  @sysvar::test::brakeSensor = this.byte(0)>>5;
+  @sysvar::test::SteeringSensor = this.byte(3)>>5;
+  
+}
+
+On message 0x501
+{
+    if(this.byte(0)== 0x2)
+    {
+       @sysvar::test::display1 ^= 1;
+    }
+  //@sysvar::test::displayvalue = this.byte(2);
+}
+on sysvar sysvar::test::button1
+{
+  if(@this == 1)
+  {
+    sendaCanMsg3();
+    
+  }
+ // @sysvar::test::display1 = @this;
+}
+on sysvar sysvar::test::button2
+{
+  if(@this == 1)
+  {
+    sendaCanMsg4();
+    
+  }
+ // @sysvar::test::display1 = @this;
+}
+// interaction layer
+void MakeaCanMsg()
+{
+  canMsg.dlc = 8;
+  
+  canMsg.byte(0) = (@sysvar::test::brakeSensor>>24)&0xff;
+  canMsg.byte(1) = (@sysvar::test::brakeSensor>>16)&0xff;
+  canMsg.byte(2) = (@sysvar::test::brakeSensor>>8)&0xff;
+  canMsg.byte(3) = @sysvar::test::brakeSensor&0xff; 
+  canMsg.byte(4) = (@sysvar::test::SteeringSensor>>24)&0xff;
+  canMsg.byte(5) = (@sysvar::test::SteeringSensor>>16)&0xff;
+  canMsg.byte(6) = (@sysvar::test::SteeringSensor>>8)&0xff;
+  canMsg.byte(7) = @sysvar::test::SteeringSensor&0xff;
+  //msgEngineState.EngineSpeed =  100;
+
+}
+void MakeaCanMsg2()
+{
+  //char var;
+  //var = canMsg2.byte(0);
+  //var =var & 0xFB;
+  //var = var | 0x4;
+  canMsg2.dlc = 1;
+  canMsg2.byte(0) = 0x2;
+  //canMsg2.byte(1) = 0x22;
+  //canMsg2.byte(2) = 0x33;
+  //canMsg2.
+}
+
+//link layer
+void sendaCanMsg()
+{
+  MakeaCanMsg();
+  output(canMsg);
+  //output(msgEngineState);
+}
+
+//link layer
+void sendaCanMsg2()
+{
+  MakeaCanMsg2();
+  output(canMsg2);
+}
+void MakeaCanMsg3()
+{
+  //char var;
+  //var = canMsg2.byte(0);
+  //var =var & 0xFB;
+  //var = var | 0x4;
+  canMsg3.dlc = 2;
+  canMsg3.byte(0) = 5000>>8;
+  canMsg3.byte(1) = 5000&0xff;
+  //canMsg2.byte(2) = 0x33;
+  //canMsg2.
+}
+void sendaCanMsg3()
+{
+  MakeaCanMsg3();
+  output(canMsg3);
+}
+void MakeaCanMsg4()
+{
+  //char var;
+  //var = canMsg2.byte(0);
+  //var =var & 0xFB;
+  //var = var | 0x4;
+  canMsg3.dlc = 2;
+  canMsg3.byte(0) = 1000>>8;
+  canMsg3.byte(1) = 1000&0xff;
+  //canMsg2.byte(2) = 0x33;
+  //canMsg2.
+}
+on message 0x321
+{
+  int vBoong_braking_info;
+  vBoong_braking_info = this.word(0);//2byte
+  switch(vBoong_braking_info)
+  {
+    case 0:
+      write("break control level 0");
+      breakcontrol(0);
+      break;
+    case 1:
+      write("break control level 1");
+      breakcontrol(50);
+      break;
+    case 2:
+      write("break control level 2");
+      breakcontrol(100);
+      break;
+      
+      }
+  
+}
+//////
+//
+/////
+void breakcontrol(int breakvalue)
+{
+  write("break control level %d", breakvalue);
+}
+void sendaCanMsg4()
+{
+  MakeaCanMsg4();
+  output(canMsg3);
+}

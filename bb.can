@@ -1,0 +1,118 @@
+﻿/*@!Encoding:65001*/
+includes
+{
+  
+}
+
+variables
+{
+  //message BrakeState msgBrakeState;
+  message BB_DiagResponse msgBBDiag;
+  message ButtonState msgBtnState;
+ // message EngineSteeringState msgEngStrState;
+  //message RunningTime msgRunTimeState;
+  msTimer tRunningTime;
+  word time = 0;
+  
+}
+on timer tRunningTime
+{
+  setTimer(tRunningTime,100);
+  time++;
+  //write("timer : %d",time);
+  $RunningTime = time;
+}
+on start
+{
+  //msgRunTimeState.RunningTime = time;
+  setTimer(tRunningTime,100);
+}
+//on sysvar sysvar::BB::AccBtn
+on sysvar_update sysvar::BB::AccelatorSensor
+{
+  write("AccBtn Pressed");
+  //if(@this == 0)
+  {
+    write("this loop");
+    $RPM =(word)@sysvar::BB::AccelatorSensor;
+    //msgEngStrState.RPM = @sysvar::BB::AccelatorSensor;
+    //write("rpm : %d , %d",msgEngStrState.RPM,@sysvar::BB::AccelatorSensor );
+    $CarSpeed =@sysvar::BB::AccelatorSensor /15;
+    //output(msgEngStrState);
+  }
+}
+//on sysvar sysvar::BB::BrkBtn
+on sysvar_update sysvar::BB::BreakSensor
+{
+  //if(@this == 1)
+  {
+    write("BrkBtn");
+    $BrakeSensorData = @sysvar::BB::BreakSensor;    
+  }
+}
+
+//on sysvar sysvar::BB::StrBtn
+on sysvar_update sysvar::BB::SteeringSensor
+{
+  //if(@this == 1)
+  {    
+    write("StrBtn");
+    
+    $SteeringAngle = @sysvar::BB::SteeringSensor;    
+  }
+}
+on sysvar sysvar::BB::StartStop
+{
+  //if(@this == 1)
+  //{
+    //msgEngStrState.SteeringAngle = @sysvar::BB::SteeringSensor;    
+  //}
+  msgBtnState.StartOnOff = @sysvar::BB::StartStop;
+}
+on sysvar sysvar::BB::autoway
+{
+  //if(@this == 1)
+  //{
+    //msgEngStrState.SteeringAngle = @sysvar::BB::SteeringSensor;    
+  //}
+  msgBtnState.AutoWay = @sysvar::BB::autoway;
+}
+on signal_update StartOnOff
+{
+  //write("StartStop signal updated");
+  //output(msgBtnState);
+}
+on signal_update AutoWay
+{
+  //output(msgBtnState);
+}
+on sysvar_update sysvar::BB::StartStop
+{
+  write("StartStop sys var updated");
+  msgBtnState.StartOnOff = @sysvar::BB::StartStop;
+  output(msgBtnState);
+}
+on sysvar_update sysvar::BB::autoway
+{
+  write("autoway sys var updated");
+  msgBtnState.AutoWay = @sysvar::BB::autoway;
+  output(msgBtnState);
+}
+void MakeaCanMsg()
+{
+  //ButtonState.dlc = 1;
+  msgBtnState.StartOnOff = @sysvar::BB::StartStop;
+  msgBtnState.AutoWay = @sysvar::BB::autoway;
+  //byte(0) = (@sysvar::test::brakeSensor>>24)&0xff;
+ 
+
+  //msgEngineState.EngineSpeed =  100;
+
+}
+
+void sendaCanMsg()
+{
+  MakeaCanMsg();
+  //output(canMsg);
+  //output(msgEngineState);
+}
